@@ -7534,8 +7534,8 @@ a.anchor-link {
 <li>Tamanho dos embeddings</li>
 <li>Número de iterações (epochs)</li>
 </ul>
-<p>Desse modo, foi usado o arquivo 'text8' para avaliação do modelo Word2Vec, que foi treinado com o arquivo 'questions-words.txt'. O arquivo 'questions-words.txt' contém analogias do tipo "a é para b, assim como c é para d", e o objetivo é verificar se o modelo consegue encontrar a palavra d, dado a, b e c (executando assim operações vetorias de som e subtração para encontrar a palavra d).</p>
-<p>Os resultados obtidos podem ser vistos ao final do notebook para diferentes iterações, testando uma combinação de diferentes parâmetros. dito isso, o melhor resultad obtido foram com os parâmetros:</p>
+<p>Desse modo, foi usado o arquivo 'text8' para avaliação do modelo Word2Vec, que foi treinado com o arquivo 'questions-words.txt'. O arquivo 'questions-words.txt' contém analogias do tipo "a é para b, assim como c é para d", e o objetivo é verificar se o modelo consegue encontrar a palavra d, dado a, b e c (executando assim operações vetorias de som e subtração para encontrar a palavra d). Os testes realizados foram feitos utilizando a similaridade de cosseno entre os vetores de palavras para encontrar a palavra d, e o erro foi calculado como a média de erro de classificação de analogias.</p>
+<p>Os resultados obtidos podem ser vistos ao final do notebook para diferentes iterações, testando uma combinação de diferentes parâmetros. dito isso, o melhor resultado obtido foram com os parâmetros:</p>
 <ul>
 <li>Implementação de Skip-gram</li>
 <li>10 épocas</li>
@@ -7559,9 +7559,19 @@ a.anchor-link {
 <li>5 épocas</li>
 <li>Tamanho dos embeddings como 200</li>
 <li>Tamanho da janela de contexto como 5</li>
-<li>Média de erro de 0.8978691275613163</li>
+<li>Média de erro de 0.898</li>
 </ul>
 <p>Desse modo, um possível fator impactante foi o algoritmo Cbow, presente em todos os piores resultados. Mesmo que se observe a tendência do Cbow performar melhor com mais épocas e menores tamanho de vetor, o impacto ainda foi grande de se utlizar o algoritmo, sendo essa combinação de parâmetros não performática para a tarefa em questão.</p>
+<p>Vale destacar no entanto que outros testes foram feitos tendo em vista a variação de parâmetros, obtendo diferentes resultados como observados no final do notebook no arquivo 'results_evaluate_word_analogies'. Essa função retorna o resultado em relação a acurácia de classificação de analogias, não utilizando somente a distância como fator de avaliação. Esses resultados mostraram que, para os modelos anteriores, a acurácia de classificação de analogias foi de 0.0, mostrando que o modelo não conseguiu classificar nenhuma analogia corretamente (embora o erro calculado pela similaridade de cosseno tenha sido pequeno). Já utilizando a acurácia como métrica de avaliação, a melhor configuração foi:</p>
+<ul>
+<li>Implementação de Skip-gram</li>
+<li>10 épocas</li>
+<li>Tamanho dos embeddings como 250</li>
+<li>Tamanho da janela de contexto como 25</li>
+<li>Acurácia de 0.3652886071689011</li>
+</ul>
+<p>Isso segue no sentido contrário aos resultados obtidos anteriormente utilizando a similaridade de cosseno. Tais resultados são válidos tendo em vista que a acurácia de classificação de analogias é uma métrica mais robusta para avaliação do modelo. Nos testes anteriores, como o espaço de embeddings é pequeno, a similaridade de cosseno vai obter pouca variação, assim, diminuir a dimensionalidade auxilia na melhora da métrica. No entanto, considerando a acurácia como avaliação, são privilegiados modelos que conseguem acomodar as palavras de maneira mais condizente no espaço vetorial, favorecendo assim modelos com alta dimensionalidade. Desse modo, é possível explicar a diferença dos resultados utilizando ambas as métricas.</p>
+<p>Portanto, ao final do trabalho o objetivo foi cumprido, com diversas variações de parâmetros sendo testadas, juntamente a diferentes métricas de avaliação, exercitando o funcionamento do modelo Word2Vec e a importância de se escolher os parâmetros corretos para a tarefa em questão.</p>
 </div>
 </div>
 </div>
@@ -7570,7 +7580,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">Word2Vec</span>
@@ -7586,7 +7596,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># abrindo arquivo de corpus</span>
@@ -7602,7 +7612,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">12</span><span class="p">])</span>
@@ -7629,7 +7639,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># organizando entrada, tokenizando em sentenças de tamanho 50 (valor arbitrario)</span>
@@ -7678,15 +7688,15 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># preparando hiperparametros para serem usados (dados da última iteração para testes)</span>
 <span class="n">hiperparameters</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'vector_size'</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+    <span class="s1">'vector_size'</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">],</span>
     <span class="s1">'sg'</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="c1"># 1 = skip-gram, 0 = CBOW</span>
-    <span class="s1">'window'</span><span class="p">:</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span>
-    <span class="s1">'epochs'</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+    <span class="s1">'window'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span>
+    <span class="s1">'epochs'</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
 <span class="p">}</span>
 
 <span class="n">grid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ParameterGrid</span><span class="p">(</span><span class="n">hiperparameters</span><span class="p">))</span>
@@ -7700,7 +7710,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># preparando informações para teste que estão presentes no arquivo questions-words.txt</span>
@@ -7739,7 +7749,7 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -7751,11 +7761,15 @@ a.anchor-link {
 <span class="c1"># a melhor e pior configuração são salvas e impressas ao final</span>
 <span class="n">best_config</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">min_avg_error</span> <span class="o">=</span> <span class="mi">50000</span>
+<span class="n">best_model_error</span> <span class="o">=</span> <span class="mi">0</span>
 
 <span class="n">worst_config</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="n">max_avg_error</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">worst_model_error</span> <span class="o">=</span> <span class="mi">50000</span>
 
 <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># TESTES -&gt; SIMILARIDADE DE COSSENO</span>
 
 <span class="c1"># dados estão no formato: palavra1 palavra2 palavra3 palavra4</span>
 <span class="c1"># a ideia é que palavra1 - palavra2 + palavra3 = palavra4</span>
@@ -7812,20 +7826,56 @@ a.anchor-link {
 </div>
 </div>
 </div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>
-Best Configuration: {'epochs': 10, 'sg': 1, 'vector_size': 3, 'window': 25}
-Min Average Error: 0.11449590156785465
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># treinando modelo word2vec com dados de entrada, variando os hiperparametros e calculando erro médio</span>
+<span class="c1"># a melhor e pior configuração são salvas e impressas ao final</span>
+<span class="n">best_config</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">best_model_error</span> <span class="o">=</span> <span class="mi">0</span>
 
-Worst Configuration: {'epochs': 5, 'sg': 0, 'vector_size': 5, 'window': 15}
-Max Average Error: 0.7583584528408859
-</pre>
+<span class="n">worst_config</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">worst_model_error</span> <span class="o">=</span> <span class="mi">50000</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># TESTES -&gt; ACURACIA</span>
+
+<span class="c1"># dados estão no formato: palavra1 palavra2 palavra3 palavra4</span>
+<span class="c1"># a ideia é que palavra1 - palavra2 + palavra3 = palavra4</span>
+<span class="c1"># assim é calculada a acuracia do resultado da operação vetorial com a palavra alvo (palavra4)</span>
+<span class="c1"># o calculo é feito com a função evaluate_word_analogies do gensim</span>
+<span class="k">for</span> <span class="n">parameter_configuration</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">:</span> <span class="c1"># testo todas as combinações de hiperparametros</span>
+    <span class="n">total_error</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">count_test_words_in_vocab</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Word2Vec</span><span class="p">(</span><span class="n">sentences</span><span class="o">=</span><span class="n">data_sentences</span><span class="p">,</span> <span class="n">vector_size</span><span class="o">=</span><span class="n">parameter_configuration</span><span class="p">[</span><span class="s1">'vector_size'</span><span class="p">],</span> <span class="n">window</span><span class="o">=</span><span class="n">parameter_configuration</span><span class="p">[</span><span class="s1">'window'</span><span class="p">],</span> <span class="n">sg</span><span class="o">=</span><span class="n">parameter_configuration</span><span class="p">[</span><span class="s1">'sg'</span><span class="p">],</span> <span class="n">epochs</span><span class="o">=</span><span class="n">parameter_configuration</span><span class="p">[</span><span class="s1">'epochs'</span><span class="p">])</span> <span class="c1"># faço a predição</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">wv</span><span class="o">.</span><span class="n">evaluate_word_analogies</span><span class="p">(</span><span class="s1">'questions-words.txt'</span><span class="p">)</span> <span class="c1"># avalio o modelo com as palavras de teste</span>
+
+    <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">best_model_error</span><span class="p">:</span>
+        <span class="n">best_config</span> <span class="o">=</span> <span class="n">parameter_configuration</span>
+        <span class="n">best_model_error</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">"best_model"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">worst_model_error</span><span class="p">:</span>
+        <span class="n">worst_config</span> <span class="o">=</span> <span class="n">parameter_configuration</span>
+        <span class="n">worst_model_error</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">parameter_configuration</span><span class="p">,</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Best Configuration: </span><span class="si">{</span><span class="n">best_config</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Min Average Error: </span><span class="si">{</span><span class="n">min_avg_error</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Worst Configuration: </span><span class="si">{</span><span class="n">worst_config</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Max Average Error: </span><span class="si">{</span><span class="n">max_avg_error</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -7835,17 +7885,92 @@ Max Average Error: 0.7583584528408859
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># salvando resultados em um arquivo de texto</span>
 <span class="n">results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"results5.txt"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"results_evaluate_word_analogies.txt"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
         <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> -&gt; </span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Resultados-em-considera%C3%A7ao-a-acur%C3%A1cia.">Resultados em consideraçao a acurácia.<a class="anchor-link" href="#Resultados-em-considera%C3%A7ao-a-acur%C3%A1cia.">¶</a></h4>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># imprimindo resultados</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"results_evaluate_word_analogies.txt"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        
+    <span class="c1"># 5 melhores resultados</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Melhores resultados - Conjunto 1 de teste"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">()</span>
+
+    <span class="c1"># 5 piores resultados</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Piores resultados - Conjunto 1 de teste"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Melhores resultados - Conjunto 1 de teste
+{'epochs': 10, 'sg': 0, 'vector_size': 200, 'window': 20} -&gt; 0.3620351152745835
+{'epochs': 10, 'sg': 0, 'vector_size': 200, 'window': 25} -&gt; 0.36282044090424637
+{'epochs': 10, 'sg': 0, 'vector_size': 250, 'window': 20} -&gt; 0.3629326302799125
+{'epochs': 10, 'sg': 1, 'vector_size': 200, 'window': 25} -&gt; 0.3648398496662366
+{'epochs': 10, 'sg': 1, 'vector_size': 250, 'window': 25} -&gt; 0.3652886071689011
+
+Piores resultados - Conjunto 1 de teste
+{'epochs': 5, 'sg': 0, 'vector_size': 100, 'window': 10} -&gt; 0.25433331463510406
+{'epochs': 5, 'sg': 0, 'vector_size': 100, 'window': 20} -&gt; 0.2600549727940764
+{'epochs': 5, 'sg': 0, 'vector_size': 100, 'window': 25} -&gt; 0.2653839681382173
+{'epochs': 5, 'sg': 0, 'vector_size': 250, 'window': 10} -&gt; 0.26919840691086555
+{'epochs': 5, 'sg': 0, 'vector_size': 200, 'window': 10} -&gt; 0.27082515285802433
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h4 id="Resultados-em-considera%C3%A7%C3%A3o-a-similaridade-de-cosseno">Resultados em consideração a similaridade de cosseno<a class="anchor-link" href="#Resultados-em-considera%C3%A7%C3%A3o-a-similaridade-de-cosseno">¶</a></h4>
 </div>
 </div>
 </div>
